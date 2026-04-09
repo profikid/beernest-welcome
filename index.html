@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beernest — Welcome to the Nest</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        amber: {
+                            50: '#fffbeb', 100: '#fef3c7', 200: '#fde68a', 300: '#fcd34d',
+                            400: '#fbbf24', 500: '#f59e0b', 600: '#d97706', 700: '#b45309',
+                            800: '#92400e', 900: '#78350f', 950: '#451a03',
+                        },
+                        wood: {
+                            50: '#faf8f5', 100: '#f5f0e8', 200: '#e8dcc9', 300: '#d4c0a1',
+                            400: '#bfa076', 500: '#a68252', 600: '#8b6a3e', 700: '#6f5232',
+                            800: '#5a432d', 900: '#4a3828', 950: '#2a1f14',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 1s ease-out forwards',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'glow': 'glow 3s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(245, 158, 11, 0.3)' },
+                            '100%': { boxShadow: '0 0 40px rgba(245, 158, 11, 0.6)' },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(42, 31, 20, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 192, 161, 0.15);
+        }
+        .text-shadow-lg {
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+        }
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .hero-gradient {
+            background: linear-gradient(to bottom, rgba(42, 31, 20, 0.3) 0%, rgba(42, 31, 20, 0.5) 50%, rgba(42, 31, 20, 0.95) 100%);
+        }
+        .warm-overlay {
+            background: linear-gradient(135deg, rgba(217, 119, 6, 0.15) 0%, rgba(139, 106, 62, 0.1) 50%, rgba(42, 31, 20, 0.3) 100%);
+        }
+        .input-focus:focus {
+            outline: none;
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+        }
+        ::selection {
+            background: rgba(245, 158, 11, 0.4);
+            color: #fffbeb;
+        }
+    </style>
+</head>
+<body class="bg-wood-950 text-wood-100 font-sans antialiased">
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="#hero" class="font-serif text-2xl font-semibold text-amber-400 tracking-wide">Beernest</a>
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#about" class="text-wood-200 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide uppercase">About</a>
+                    <a href="#details" class="text-wood-200 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide uppercase">Details</a>
+                    <a href="#rsvp" class="text-wood-200 hover:text-amber-400 transition-colors duration-300 text-sm tracking-wide uppercase">RSVP</a>
+                </div>
+                <a href="#rsvp" class="hidden md:inline-flex items-center px-5 py-2 bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium rounded-full transition-all duration-300 hover:scale-105">Join Us</a>
+                <button id="mobile-menu-btn" class="md:hidden text-wood-200 hover:text-amber-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-wood-900/95 backdrop-blur-lg border-t border-wood-800">
+            <div class="px-6 py-4 space-y-3">
+                <a href="#about" class="block text-wood-200 hover:text-amber-400 transition-colors py-2">About</a>
+                <a href="#details" class="block text-wood-200 hover:text-amber-400 transition-colors py-2">Details</a>
+                <a href="#rsvp" class="block text-wood-200 hover:text-amber-400 transition-colors py-2">RSVP</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=1920&q=80" alt="Warm cozy bar interior" class="w-full h-full object-cover scale-105">
+            <div class="absolute inset-0 hero-gradient"></div>
+            <div class="absolute inset-0 warm-overlay"></div>
+        </div>
+        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+            <div class="animate-fade-in">
+                <p class="text-amber-400 text-sm md:text-base tracking-[0.3em] uppercase mb-6 font-medium">A Gathering Place</p>
+                <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 text-shadow-lg leading-tight">Welcome to<br>the <span class="text-amber-400 italic">Nest</span></h1>
+                <p class="text-wood-200 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-light">Where strangers become friends over golden pours and warm conversation. Pull up a stool and stay a while.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a href="#rsvp" class="px-8 py-4 bg-amber-600 hover:bg-amber-500 text-white font-medium rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-amber-600/30 animate-glow">Reserve Your Spot</a>
+                    <a href="#about" class="px-8 py-4 border border-wood-400/50 hover:border-amber-400 text-wood-100 hover:text-amber-400 font-medium rounded-full transition-all duration-300">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-amber-400/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="relative py-24 md:py-32 bg-wood-950">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
+                <div class="scroll-reveal order-2 md:order-1">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-amber-600/20 rounded-2xl blur-2xl"></div>
+                        <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=800&q=80" alt="Craft beer and warm atmosphere" class="relative rounded-2xl shadow-2xl w-full h-[500px] object-cover">
+                        <div class="absolute -bottom-6 -right-6 bg-wood-900 p-6 rounded-xl border border-wood-800 shadow-xl">
+                            <p class="font-serif text-3xl text-amber-400 font-bold">5+</p>
+                            <p class="text-wood-300 text-sm">Years of Community</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-reveal order-1 md:order-2">
+                    <p class="text-amber-500 text-sm tracking-[0.2em] uppercase mb-4 font-medium">Our Story</p>
+                    <h2 class="font-serif text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">A Nest Built on <span class="text-amber-400 italic">Good Times</span></h2>
+                    <div class="space-y-4 text-wood-300 leading-relaxed">
+                        <p>Beernest isn't just a bar—it's a sanctuary. A place where the amber glow of Edison bulbs meets the warmth of genuine human connection. We've crafted every corner to feel like coming home.</p>
+                        <p>From the reclaimed wood that lines our walls to the carefully curated selection of craft brews, every detail tells a story. This is where neighbors become friends, where first dates become anniversaries, where solo visitors find their crowd.</p>
+                        <p class="text-amber-200">Our welcome party is just the beginning. Come find your place in the nest.</p>
+                    </div>
+                    <div class="mt-8 flex items-center gap-4">
+                        <div class="flex -space-x-3">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" class="w-10 h-10 rounded-full border-2 border-wood-950 object-cover" alt="Community member">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" class="w-10 h-10 rounded-full border-2 border-wood-950 object-cover" alt="Community member">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" class="w-10 h-10 rounded-full border-2 border-wood-950 object-cover" alt="Community member">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop" class="w-10 h-10 rounded-full border-2 border-wood-950 object-cover" alt="Community member">
+                        </div>
+                        <p class="text-wood-400 text-sm">Join <span class="text-amber-400 font-medium">200+</span> nest members</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Details Section -->
+    <section id="details" class="relative py-24 md:py-32 bg-wood-900">
+        <div class="absolute inset-0 opacity-30">
+            <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23d97706\' fill-opacity=\'0.05\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+        </div>
+        <div class="relative max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 scroll-reveal">
+                <p class="text-amber-500 text-sm tracking-[0.2em] uppercase mb-4 font-medium">The Gathering</p>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-white mb-6">Event Details</h2>
+                <p class="text-wood-300 max-w-2xl mx-auto">Everything you need to know about our welcome party. Mark your calendar and prepare for an evening of warmth, laughter, and exceptional brews.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="scroll-reveal glass-card rounded-2xl p-8 text-center hover:border-amber-500/30 transition-all duration-300 hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-amber-600/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-semibold text-white mb-3">When</h3>
+                    <p class="text-amber-400 font-medium mb-2">Saturday, April 26th</p>
+                    <p class="text-wood-300">7:00 PM — Late</p>
+                    <p class="text-wood-400 text-sm mt-3">Doors open at 6:30 PM for early birds</p>
+                </div>
+                <div class="scroll-reveal glass-card rounded-2xl p-8 text-center hover:border-amber-500/30 transition-all duration-300 hover:-translate-y-2" style="transition-delay: 100ms;">
+                    <div class="w-16 h-16 bg-amber-600/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-semibold text-white mb-3">Where</h3>
+                    <p class="text-amber-400 font-medium mb-2">Beernest Tavern</p>
+                    <p class="text-wood-300">42 Amber Lane, Craft District</p>
+                    <p class="text-wood-400 text-sm mt-3">Free parking available nearby</p>
+                </div>
+                <div class="scroll-reveal glass-card rounded-2xl p-8 text-center hover:border-amber-500/30 transition-all duration-300 hover:-translate-y-2" style="transition-delay: 200ms;">
+                    <div class="w-16 h-16 bg-amber-600/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-semibold text-white mb-3">What to Expect</h3>
+                    <ul class="text-wood-300 space-y-2 text-left inline-block">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-amber-400 rounded-full"></span>Craft beer tasting flights</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-amber-400 rounded-full"></span>Live acoustic music</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-amber-400 rounded-full"></span>Artisan bar snacks</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-amber-400 rounded-full"></span>Good company & conversation</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-16 scroll-reveal">
+                <div class="glass-card rounded-2xl p-8 md:p-12">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="font-serif text-3xl font-bold text-white mb-4">What's Included</h3>
+                            <div class="space-y-3 text-wood-300">
+                                <div class="flex items-start gap-3">
+                                    <svg class="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                    <span>Welcome drink on arrival</span>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <svg class="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                    <span>Guided tasting of 4 signature brews</span>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <svg class="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                    <span>Complimentary appetizer platter</span>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <svg class="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                    <span>Exclusive first-timer discount card</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=600&q=80" alt="Craft beer flight" class="rounded-xl shadow-2xl w-full h-64 object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-wood-950/60 to-transparent rounded-xl"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP Section -->
+    <section id="rsvp" class="relative py-24 md:py-32 bg-wood-950">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="scroll-reveal text-center mb-12">
+                <p class="text-amber-500 text-sm tracking-[0.2em] uppercase mb-4 font-medium">Join the Flock</p>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-white mb-6">Reserve Your Spot</h2>
+                <p class="text-wood-300 max-w-xl mx-auto">Space is limited to keep things cozy. Let us know you're coming so we can prepare the perfect nest for you.</p>
+            </div>
+            <div class="scroll-reveal glass-card rounded-2xl p-8 md:p-12">
+                <form id="rsvp-form" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-wood-300 text-sm font-medium mb-2">Your Name</label>
+                            <input type="text" id="name" name="name" required class="w-full px-4 py-3 bg-wood-900/50 border border-wood-700 rounded-lg text-white placeholder-wood-500 input-focus transition-all duration-300" placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-wood-300 text-sm font-medium mb-2">Email Address</label>
+                            <input type="email" id="email" name="email" required class="w-full px-4 py-3 bg-wood-900/50 border border-wood-700 rounded-lg text-white placeholder-wood-500 input-focus transition-all duration-300" placeholder="john@example.com">
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="guests" class="block text-wood-300 text-sm font-medium mb-2">Number of Guests</label>
+                            <select id="guests" name="guests" class="w-full px-4 py-3 bg-wood-900/50 border border-wood-700 rounded-lg text-white input-focus transition-all duration-300">
+                                <option value="1">Just me</option>
+                                <option value="2">2 guests</option>
+                                <option value="3">3 guests</option>
+                                <option value="4">4 guests</option>
+                                <option value="5+">5+ guests</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="dietary" class="block text-wood-300 text-sm font-medium mb-2">Dietary Requirements (Optional)</label>
+                            <input type="text" id="dietary" name="dietary" class="w-full px-4 py-3 bg-wood-900/50 border border-wood-700 rounded-lg text-white placeholder-wood-500 input-focus transition-all duration-300" placeholder="Vegetarian, allergies, etc.">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="message" class="block text-wood-300 text-sm font-medium mb-2">Message (Optional)</label>
+                        <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 bg-wood-900/50 border border-wood-700 rounded-lg text-white placeholder-wood-500 input-focus transition-all duration-300 resize-none" placeholder="Looking forward to seeing you all!"></textarea>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="newsletter" name="newsletter" class="mt-1 w-4 h-4 rounded border-wood-700 bg-wood-900/50 text-amber-600 focus:ring-amber-500">
+                        <label for="newsletter" class="text-wood-400 text-sm">Keep me updated about future events and special offers at Beernest</label>
+                    </div>
+                    <button type="submit" class="w-full py-4 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-amber-600/30">Confirm My Reservation</button>
+                </form>
+                <div id="success-message" class="hidden text-center py-12">
+                    <div class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-white mb-3">You're on the List!</h3>
+                    <p class="text-wood-300">We've received your reservation. Check your email for confirmation details. See you at the Nest!</p>
+                </div>
+            </div>
+            <div class="mt-8 text-center">
+                <p class="text-wood-400 text-sm">Questions? Reach us at <a href="mailto:hello@beernest.com" class="text-amber-400 hover:text-amber-300 transition-colors">hello@beernest.com</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-wood-950 border-t border-wood-900 py-12">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div class="md:col-span-2">
+                    <h3 class="font-serif text-2xl font-semibold text-amber-400 mb-4">Beernest</h3>
+                    <p class="text-wood-400 max-w-sm mb-6">A sanctuary for craft beer lovers and community seekers. Come find your place in the nest.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-medium mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-wood-400">
+                        <li><a href="#about" class="hover:text-amber-400 transition-colors">About</a></li>
+                        <li><a href="#details" class="hover:text-amber-400 transition-colors">Event Details</a></li>
+                        <li><a href="#rsvp" class="hover:text-amber-400 transition-colors">RSVP</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-medium mb-4">Contact</h4>
+                    <ul class="space-y-2 text-wood-400">
+                        <li>42 Amber Lane</li>
+                        <li>Craft District</li>
+                        <li><a href="mailto:hello@beernest.com" class="hover:text-amber-400 transition-colors">hello@beernest.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-wood-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-wood-500 text-sm">&copy; 2026 Beernest. All rights reserved.</p>
+                <p class="text-wood-500 text-sm">Made with love for good beer and great company.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Navbar background on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-wood-950/90', 'backdrop-blur-lg', 'shadow-lg');
+            } else {
+                navbar.classList.remove('bg-wood-950/90', 'backdrop-blur-lg', 'shadow-lg');
+            }
+        });
+
+        // Scroll reveal animation
+        const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        scrollRevealElements.forEach(el => revealObserver.observe(el));
+
+        // Form submission
+        const rsvpForm = document.getElementById('rsvp-form');
+        const successMessage = document.getElementById('success-message');
+
+        rsvpForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            rsvpForm.classList.add('hidden');
+            successMessage.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
